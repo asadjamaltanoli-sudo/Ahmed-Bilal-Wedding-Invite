@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation | Ahmed Bilal & Iqra Ikram</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700;800&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-cream: #FAF7F2;
+            --gold-primary: #C59B27;
+            --gold-light: #E6CA65;
+            --gold-dark: #9A7514;
+            --charcoal: #2D2721;
+            --charcoal-light: #4A423A;
+            --olive-accent: #707A65;
+        }
+
+        body {
+            background-color: #1a1816;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--charcoal);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100dvh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-amiri { font-family: 'Amiri', serif; }
+        .font-script { font-family: 'Great Vibes', cursive; }
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+
+        /* Metallic Gold Gradient Text */
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #9A7514 0%, #C59B27 30%, #F5E296 50%, #C59B27 70%, #83620D 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Metallic Gold Gradient Border */
+        .gold-border {
+            border-image: linear-gradient(to bottom right, #C59B27, #F5E296, #9A7514, #C59B27) 1;
+        }
+
+        /* Mobile Container Card Frame */
+        .card-frame {
+            background: linear-gradient(180deg, #FAF7F2 0%, #F4EFE6 100%);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 40px rgba(197, 155, 39, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .view-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.98);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2.5rem 1.75rem;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+
+        .view-slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+            z-index: 20;
+        }
+
+        /* Pulsing hint text */
+        @keyframes subtlePulse {
+            0%, 100% { opacity: 0.4; transform: translateY(0); }
+            50% { opacity: 0.8; transform: translateY(-3px); }
+        }
+
+        .pulse-hint {
+            animation: subtlePulse 3s infinite ease-in-out;
+        }
+
+        /* Golden shimmer button effect */
+        .gold-btn {
+            background: linear-gradient(135deg, #C59B27 0%, #E6CA65 50%, #9A7514 100%);
+            background-size: 200% auto;
+            color: #ffffff;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(197, 155, 39, 0.3);
+        }
+
+        .gold-btn:hover {
+            background-position: right center;
+            box-shadow: 0 6px 20px rgba(197, 155, 39, 0.5);
+            transform: translateY(-1px);
+        }
+
+        /* Ornamental SVG Gold Accent Styling */
+        .corner-svg {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            pointer-events: none;
+            z-index: 30;
+            opacity: 0.85;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Canvas for Golden Stardust Particles -->
+    <canvas id="sparkleCanvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- Main Card Container (Centered, 100dvh mobile or desktop overlay frame) -->
+    <main class="relative z-10 w-full max-w-[460px] h-[100dvh] max-h-[880px] card-frame rounded-none sm:rounded-3xl flex flex-col justify-between items-center select-none shadow-2xl border-0 sm:border sm:border-[#C59B27]/40">
+        
+        <!-- Outer Gold Frame Lines & Corner SVG Ornaments -->
+        <div class="absolute inset-3 border border-[#C59B27]/40 rounded-none sm:rounded-2xl pointer-events-none z-30"></div>
+        <div class="absolute inset-[16px] border border-[#C59B27]/20 rounded-none sm:rounded-xl pointer-events-none z-30"></div>
+
+        <!-- Corner Ornaments -->
+        <!-- Top Left -->
+        <svg class="corner-svg top-4 left-4 text-[#C59B27]" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+            <path d="M5 5 H 40 M 5 5 V 40 M 12 12 H 30 M 12 12 V 30" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="5" cy="5" r="3" fill="currentColor"/>
+            <path d="M 5 5 Q 35 35 60 5" stroke-width="1" fill="none"/>
+            <path d="M 5 5 Q 35 35 5 60" stroke-width="1" fill="none"/>
+        </svg>
+        <!-- Top Right -->
+        <svg class="corner-svg top-4 right-4 text-[#C59B27] transform rotate-90" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+            <path d="M5 5 H 40 M 5 5 V 40 M 12 12 H 30 M 12 12 V 30" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="5" cy="5" r="3" fill="currentColor"/>
+            <path d="M 5 5 Q 35 35 60 5" stroke-width="1" fill="none"/>
+            <path d="M 5 5 Q 35 35 5 60" stroke-width="1" fill="none"/>
+        </svg>
+        <!-- Bottom Left -->
+        <svg class="corner-svg bottom-4 left-4 text-[#C59B27] transform -rotate-90" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+            <path d="M5 5 H 40 M 5 5 V 40 M 12 12 H 30 M 12 12 V 30" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="5" cy="5" r="3" fill="currentColor"/>
+            <path d="M 5 5 Q 35 35 60 5" stroke-width="1" fill="none"/>
+            <path d="M 5 5 Q 35 35 5 60" stroke-width="1" fill="none"/>
+        </svg>
+        <!-- Bottom Right -->
+        <svg class="corner-svg bottom-4 right-4 text-[#C59B27] transform rotate-180" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+            <path d="M5 5 H 40 M 5 5 V 40 M 12 12 H 30 M 12 12 V 30" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="5" cy="5" r="3" fill="currentColor"/>
+            <path d="M 5 5 Q 35 35 60 5" stroke-width="1" fill="none"/>
+            <path d="M 5 5 Q 35 35 5 60" stroke-width="1" fill="none"/>
+        </svg>
+
+        <!-- VIEW 1: Quranic Recitation -->
+        <section class="view-slide active" id="view-1">
+            <!-- Calligraphic Decorative Top Accent -->
+            <div class="mb-6 text-[#C59B27]">
+                <svg class="w-24 h-10 mx-auto" viewBox="0 0 120 40" fill="currentColor">
+                    <path d="M60 0 C65 15 85 15 90 20 C85 25 65 25 60 40 C55 25 35 25 30 20 C35 15 55 15 60 0 Z" opacity="0.8"/>
+                    <circle cx="60" cy="20" r="3" fill="#9A7514"/>
+                    <circle cx="20" cy="20" r="2" fill="#C59B27"/>
+                    <circle cx="100" cy="20" r="2" fill="#C59B27"/>
+                </svg>
+            </div>
+
+            <!-- Bismillah Script -->
+            <h2 class="font-amiri text-2xl sm:text-3xl text-[#2D2721] mb-6 leading-relaxed font-bold tracking-wide">
+                بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+            </h2>
+
+            <!-- Gold Divider Line -->
+            <div class="w-16 h-[1px] bg-gradient-to-r from-transparent via-[#C59B27] to-transparent my-4 mx-auto"></div>
+
+            <!-- Quranic Verse -->
+            <p class="font-amiri text-3xl sm:text-4xl text-[#9A7514] mb-6 leading-loose font-medium px-2">
+                "وَخَلَقْنَاكُمْ أَزْوَاجًا"
+            </p>
+
+            <!-- Translation & Reference -->
+            <p class="font-playfair italic text-lg text-[#2D2721]/90 mb-2 px-4">
+                "And We created you in pairs."
+            </p>
+            <p class="font-montserrat text-xs tracking-[0.25em] text-[#707A65] uppercase font-semibold">
+                Surah An-Naba (78:8)
+            </p>
+        </section>
+
+        <!-- VIEW 2: Host Invitation -->
+        <section class="view-slide" id="view-2">
+            <!-- Subheading -->
+            <p class="font-montserrat text-[10px] sm:text-xs tracking-[0.3em] text-[#707A65] uppercase font-semibold mb-8 max-w-[280px] leading-relaxed">
+                IN THE NAME OF ALLAH, THE MOST GRACIOUS, THE MOST MERCIFUL
+            </p>
+
+            <!-- Gold Floral Motif -->
+            <div class="mb-6">
+                <svg class="w-12 h-12 mx-auto text-[#C59B27]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <circle cx="12" cy="12" r="9" stroke-dasharray="2 2"/>
+                    <path d="M12 3c-2.5 3-2.5 6 0 9 2.5-3 2.5-6 0-9z"/>
+                    <path d="M12 21c-2.5-3-2.5-6 0-9 2.5 3 2.5 6 0 9z"/>
+                    <path d="M3 12c3-2.5 6-2.5 9 0-3 2.5-6 2.5-9 0z"/>
+                    <path d="M21 12c-3-2.5-6-2.5-9 0 3 2.5 6 2.5 9 0z"/>
+                </svg>
+            </div>
+
+            <!-- Hosts -->
+            <h1 class="font-cinzel text-2xl sm:text-3xl text-[#2D2721] font-bold tracking-wider mb-4 leading-snug">
+                Mr. & Mrs. Ahmed Sultan
+            </h1>
+
+            <div class="w-12 h-[1px] bg-[#C59B27] my-3 mx-auto"></div>
+
+            <!-- Invitation Text -->
+            <p class="font-playfair italic text-base sm:text-lg text-[#4A423A] max-w-[280px] leading-relaxed mt-2">
+                cordially invite you to the marriage ceremony of their beloved son
+            </p>
+        </section>
+
+        <!-- VIEW 3: The Couple -->
+        <section class="view-slide" id="view-3">
+            <p class="font-montserrat text-[10px] sm:text-xs tracking-[0.35em] text-[#707A65] uppercase font-semibold mb-6">
+                CELEBRATING THE WEDDING OF
+            </p>
+
+            <!-- Groom -->
+            <h2 class="font-cinzel text-3xl sm:text-4xl gold-gradient-text font-bold tracking-wider my-2">
+                Ahmed Bilal
+            </h2>
+
+            <!-- Connector Script -->
+            <p class="font-script text-3xl sm:text-4xl text-[#707A65] my-2 font-normal">
+                with
+            </p>
+
+            <!-- Bride -->
+            <h2 class="font-cinzel text-3xl sm:text-4xl gold-gradient-text font-bold tracking-wider my-2">
+                Iqra Ikram
+            </h2>
+
+            <!-- Bottom Flourish Accent -->
+            <div class="mt-8 text-[#C59B27]">
+                <svg class="w-20 h-6 mx-auto" viewBox="0 0 100 20" fill="none" stroke="currentColor" stroke-width="1.2">
+                    <path d="M0 10 Q 25 0 50 10 Q 75 20 100 10"/>
+                    <circle cx="50" cy="10" r="3" fill="#C59B27"/>
+                </svg>
+            </div>
+        </section>
+
+        <!-- VIEW 4: Event Details -->
+        <section class="view-slide" id="view-4">
+            <p class="font-montserrat text-[10px] sm:text-xs tracking-[0.3em] text-[#707A65] uppercase font-semibold mb-6">
+                SAVE THE DATE
+            </p>
+
+            <!-- Date Badge -->
+            <div class="border-y-2 border-[#C59B27] py-3 px-6 my-2">
+                <p class="font-cinzel text-lg sm:text-xl text-[#2D2721] font-bold tracking-widest">
+                    OCTOBER 18, 2026
+                </p>
+            </div>
+
+            <!-- Venue Details with SVG Pin -->
+            <div class="mt-6 mb-4 max-w-[300px]">
+                <div class="flex items-center justify-center gap-2 mb-1 text-[#9A7514]">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L12 22.172l-5.657-5.657A8 8 0 1117.657 8.343a8 8 0 010 11.314z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span class="font-montserrat text-xs tracking-wider font-semibold text-[#2D2721]">VENUE</span>
+                </div>
+                <p class="font-playfair text-base sm:text-lg text-[#2D2721] font-semibold leading-snug">
+                    Aura Grande Arena
+                </p>
+                <p class="font-montserrat text-xs text-[#4A423A] mt-1">
+                    Bahria Phase 7, Rawalpindi
+                </p>
+            </div>
+
+            <!-- Time Details with SVG Clock -->
+            <div class="mb-6">
+                <div class="flex items-center justify-center gap-2 mb-1 text-[#9A7514]">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span class="font-montserrat text-xs tracking-wider font-semibold text-[#2D2721]">TIME</span>
+                </div>
+                <p class="font-montserrat text-xs sm:text-sm text-[#4A423A] font-medium">
+                    Dinner 6:00 PM to 10:00 PM
+                </p>
+            </div>
+
+            <!-- Action Buttons (Calendar & Map) -->
+            <div class="flex gap-3 mt-2 pointer-events-auto">
+                <a href="https://maps.google.com/?q=Aura+Grande+Arena+Bahria+Phase+7+Rawalpindi" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="text-xs font-montserrat tracking-wider uppercase bg-[#2D2721] text-[#FAF7F2] px-4 py-2 rounded-full shadow hover:bg-[#4A423A] transition flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5 text-[#E6CA65]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    View Map
+                </a>
+            </div>
+        </section>
+
+        <!-- VIEW 5: Closing -->
+        <section class="view-slide" id="view-5">
+            <!-- Top Heart Icon Accent -->
+            <div class="mb-6 text-[#C59B27]">
+                <svg class="w-10 h-10 mx-auto fill-current opacity-80" viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </div>
+
+            <h1 class="font-cinzel text-3xl sm:text-4xl text-[#2D2721] font-bold tracking-wider mb-4">
+                Thank You
+            </h1>
+
+            <div class="w-12 h-[1px] bg-[#C59B27] my-3 mx-auto"></div>
+
+            <p class="font-playfair italic text-lg sm:text-xl text-[#4A423A] mb-8 max-w-[260px]">
+                "For Being Part of Our Special Day"
+            </p>
+
+            <!-- Restart Button -->
+            <button id="restartBtn" class="pointer-events-auto gold-btn font-montserrat text-xs tracking-[0.2em] font-semibold uppercase px-7 py-3 rounded-full border border-[#E6CA65]/50">
+                Restart Invitation
+            </button>
+        </section>
+
+        <!-- Card Footer Overlay: Progress Dots and Discreet Swipe/Tap Hint -->
+        <div class="relative z-30 w-full pb-6 pt-2 flex flex-col items-center justify-center gap-3 pointer-events-none">
+            <!-- Discreet Hint -->
+            <p id="navigationHint" class="font-montserrat text-[10px] tracking-[0.25em] uppercase text-[#707A65] pulse-hint font-medium">
+                Tap anywhere or swipe to continue
+            </p>
+
+            <!-- 5 Page Indicator Dots -->
+            <div class="flex items-center gap-2.5">
+                <span class="dot-indicator w-2 h-2 rounded-full transition-all duration-300 bg-[#C59B27] scale-125 shadow-sm"></span>
+                <span class="dot-indicator w-2 h-2 rounded-full transition-all duration-300 bg-[#C59B27]/30"></span>
+                <span class="dot-indicator w-2 h-2 rounded-full transition-all duration-300 bg-[#C59B27]/30"></span>
+                <span class="dot-indicator w-2 h-2 rounded-full transition-all duration-300 bg-[#C59B27]/30"></span>
+                <span class="dot-indicator w-2 h-2 rounded-full transition-all duration-300 bg-[#C59B27]/30"></span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Canvas Floating Gold Stardust Particles
+        const canvas = document.getElementById('sparkleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 20;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedY = Math.random() * 0.6 + 0.2;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.7 + 0.2;
+                this.fadeSpeed = Math.random() * 0.005 + 0.002;
+            }
+
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                if (this.y < -10) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(197, 155, 39, ${this.opacity})`;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = '#E6CA65';
+                ctx.fill();
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < 45; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        // View Controller State
+        let currentView = 0;
+        const totalViews = 5;
+        const views = document.querySelectorAll('.view-slide');
+        const dots = document.querySelectorAll('.dot-indicator');
+        const hintText = document.getElementById('navigationHint');
+
+        function updateView(index) {
+            views.forEach((view, idx) => {
+                if (idx === index) {
+                    view.classList.add('active');
+                } else {
+                    view.classList.remove('active');
+                }
+            });
+
+            dots.forEach((dot, idx) => {
+                if (idx === index) {
+                    dot.className = "dot-indicator w-2 h-2 rounded-full transition-all duration-300 bg-[#C59B27] scale-125 shadow-sm";
+                } else {
+                    dot.className = "dot-indicator w-2 h-2 rounded-full transition-all duration-300 bg-[#C59B27]/30";
+                }
+            });
+
+            // Update bottom text on last view
+            if (index === totalViews - 1) {
+                hintText.textContent = "Tap restart to replay";
+            } else {
+                hintText.textContent = "Tap anywhere or swipe to continue";
+            }
+        }
+
+        function nextView() {
+            if (currentView < totalViews - 1) {
+                currentView++;
+                updateView(currentView);
+            }
+        }
+
+        function prevView() {
+            if (currentView > 0) {
+                currentView--;
+                updateView(currentView);
+            }
+        }
+
+        function resetView() {
+            currentView = 0;
+            updateView(currentView);
+        }
+
+        // Touch & Swipe Handling
+        let touchStartY = 0;
+        let touchStartX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+            touchStartX = e.touches[0].clientX;
+            initAudioOnInteraction();
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            let touchEndY = e.changedTouches[0].clientY;
+            let touchEndX = e.changedTouches[0].clientX;
+
+            let diffY = touchStartY - touchEndY;
+            let diffX = touchStartX - touchEndX;
+
+            // Detect swipe vs tap
+            if (Math.abs(diffY) > 40 || Math.abs(diffX) > 40) {
+                if (diffY > 40 || diffX > 40) {
+                    nextView();
+                } else if (diffY < -40 || diffX < -40) {
+                    prevView();
+                }
+            } else {
+                // Handle as tap anywhere (except when clicking interactive elements)
+                if (!e.target.closest('button') && !e.target.closest('a')) {
+                    if (currentView < totalViews - 1) {
+                        nextView();
+                    }
+                }
+            }
+        }, { passive: true });
+
+        // Click interaction for desktop
+        document.addEventListener('click', (e) => {
+            initAudioOnInteraction();
+            if (!e.target.closest('button') && !e.target.closest('a')) {
+                if (currentView < totalViews - 1) {
+                    nextView();
+                }
+            }
+        });
+
+        // Restart button event
+        document.getElementById('restartBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            resetView();
+        });
+
+        // Automated Audio System (No UI Toggle)
+        let audioInitialized = false;
+        let audioContext = null;
+        let synthInterval = null;
+
+        // Soft royalty-free ambient audio URL
+        const bgAudio = new Audio('https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=soft-piano-108253.mp3');
+        bgAudio.loop = true;
+        bgAudio.volume = 0;
+
+        function initAudioOnInteraction() {
+            if (audioInitialized) return;
+            audioInitialized = true;
+
+            // Try playing audio file
+            const playPromise = bgAudio.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // Fade in audio volume smoothly
+                    let vol = 0;
+                    const fadeInterval = setInterval(() => {
+                        if (vol < 0.35) {
+                            vol += 0.02;
+                            bgAudio.volume = vol;
+                        } else {
+                            clearInterval(fadeInterval);
+                        }
+                    }, 100);
+                }).catch(err => {
+                    // Fallback to Web Audio Synthesizer if network/policy blocks ambient MP3
+                    console.log("Audio MP3 playback blocked/failed. Starting Web Audio API Synthesizer fallback.");
+                    startSynthesizerHarp();
+                });
+            }
+        }
+
+        // Web Audio API Synthesizer Fallback (Warm Soft Acoustic Harp Chords)
+        function startSynthesizerHarp() {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                audioContext = new AudioCtx();
+
+                // Peaceful pentatonic frequencies (Soft acoustic feel)
+                const notes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
+                let noteIndex = 0;
+
+                function playSoftHarpNote(freq) {
+                    if (!audioContext) return;
+                    const osc = audioContext.createOscillator();
+                    const gain = audioContext.createGain();
+
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, audioContext.currentTime);
+
+                    // Soft bell/harp envelope
+                    gain.gain.setValueAtTime(0.001, audioContext.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.08, audioContext.currentTime + 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 2.5);
+
+                    osc.connect(gain);
+                    gain.connect(audioContext.destination);
+
+                    osc.start();
+                    osc.stop(audioContext.currentTime + 2.6);
+                }
+
+                // Play gentle arpeggiated sequence
+                synthInterval = setInterval(() => {
+                    const freq = notes[noteIndex % notes.length];
+                    playSoftHarpNote(freq);
+                    noteIndex += Math.floor(Math.random() * 2) + 1;
+                }, 1200);
+
+            } catch (e) {
+                console.error("Web Audio API not supported", e);
+            }
+        }
+
+        // Keydown listener for accessibility navigation & audio trigger
+        document.addEventListener('keydown', (e) => {
+            initAudioOnInteraction();
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+                nextView();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                prevView();
+            }
+        });
+
+        // Window onload initialization
+        window.onload = function() {
+            animateParticles();
+        };
+    </script>
+</body>
+</html>
